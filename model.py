@@ -85,8 +85,11 @@ class Node:
         self.id: int = node_id
         self.pos: Position = pos
         self.power: int = power
+
         self.input_queue: List[Message] = []
         self.output_queue: List[Message] = []
+
+        self.consumed_message_ids: List[int] = []
         self.relayed_message_ids: List[int] = []
 
 
@@ -101,8 +104,12 @@ class Node:
 
             if message.id in self.relayed_message_ids:
                 logging.debug(f'{self} ignoring already relayed {message}')
+            elif message.id in self.consumed_message_ids:
+                logging.debug(f'{self} ignoring already consumed {message}')
             elif message.destination_id == self.id:
                 logging.info(f'{message} reached final destination')
+                self.consume_message(message)
+                self.consumed_message_ids.append(message.id)
             else:
                 logging.debug(f'{self} relaying {message}')
                 self.output_queue.append(message)
@@ -116,6 +123,10 @@ class Node:
             message = self.output_queue.pop(0)
             medium.propagate_message(message, self)
             logging.debug(f'{self} emitted {message}')
+
+
+    def consume_message(self, message: Message) -> None:
+        logging.debug(f'{self} consuming {message}')
 
 
     def __str__(self) -> str:
