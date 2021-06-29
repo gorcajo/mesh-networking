@@ -20,9 +20,9 @@ class Simulation:
             node_type = node['type']
 
             if node_type == 'flooding':
-                self.medium.add_node(FloodingNode(node_id, node_pos, node_power, self.medium))
+                self.medium.add_node(FloodingNode(node_id, node_pos, node_power, self.medium, len(NODES_DEFINITION)))
             elif node_type == 'routing':
-                self.medium.add_node(RoutingNode(node_id, node_pos, node_power, self.medium))
+                self.medium.add_node(RoutingNode(node_id, node_pos, node_power, self.medium, len(NODES_DEFINITION)))
             else:
                 raise ValueError()
 

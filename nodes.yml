@@ -28,8 +28,8 @@
 
 - id: 4
   pos:
-    x: 4
-    y: 6
+    x: -3
+    y: -1
   power: 4
   type: flooding
 
@@ -105,7 +105,7 @@
 
 - id: 15
   pos:
-    x: -3
-    y: -1
+    x: 4
+    y: 6
   power: 4
   type: flooding

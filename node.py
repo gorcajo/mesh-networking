@@ -5,11 +5,12 @@ from typing import List
 
 class Node:
 
-    def __init__(self, node_id: int, pos: Point, power: int, medium: Medium) -> None:
+    def __init__(self, node_id: int, pos: Point, power: int, medium: Medium, node_count: int) -> None:
         self.id = node_id
         self.pos = pos
         self.power = power
         self.medium = medium
+        self.node_count = node_count
 
         self.input_queue: List[Message] = []
         self.output_queue: List[Message] = []
@@ -45,8 +46,8 @@ class Node:
 
 class FloodingNode(Node):
 
-    def __init__(self, node_id: int, pos: Point, power: int, medium: Medium) -> None:
-        super().__init__(node_id, pos, power, medium)
+    def __init__(self, node_id: int, pos: Point, power: int, medium: Medium, node_count: int) -> None:
+        super().__init__(node_id, pos, power, medium, node_count)
 
         self.next_message_id = 0
 
@@ -55,7 +56,9 @@ class FloodingNode(Node):
 
 
     def create_message(self) -> None:
-        self.receive_message(FloodingMessage(message_id=self.next_message_id, destination_id=4, payload='test'))
+        destination_id = self.node_count - 1
+        message = FloodingMessage(message_id=self.next_message_id, destination_id=destination_id, payload='test')
+        self.receive_message(message)
         self.next_message_id += 1
 
 
@@ -81,8 +84,8 @@ class FloodingNode(Node):
 
 class RoutingNode(Node):
 
-    def __init__(self, node_id: int, pos: Point, power: int, medium: Medium) -> None:
-        super().__init__(node_id, pos, power, medium)
+    def __init__(self, node_id: int, pos: Point, power: int, medium: Medium, node_count: int) -> None:
+        super().__init__(node_id, pos, power, medium, node_count)
 
 
     def create_message(self) -> None:
