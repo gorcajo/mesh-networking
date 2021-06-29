@@ -9,9 +9,12 @@ from model.node import Node
 from model.point import Point
 
 
-SCREEN_GEOMETRY = (1200, 900)
+GRID_SIZE = 30
+GRID_GEOMETRY = (30, 24)
 
-DISTANCE_UNIT_SIZE = 30
+SCREEN_GEOMETRY = (GRID_GEOMETRY[0] * GRID_SIZE, GRID_GEOMETRY[1] * GRID_SIZE)
+SCREEN_WIDTH = SCREEN_GEOMETRY[0]
+SCREEN_HEIGHT = SCREEN_GEOMETRY[1]
 
 BACKGROUND_COLOR = (20, 20, 20)
 
@@ -25,8 +28,8 @@ NODE_TEXT_COLOR = (70, 70, 70)
 NODE_RANGE_COLOR = (100, 100, 0)
 NODE_RANGE_BORDER_SIZE = 2
 
-LINK_LINE_WIDTH = 1
-LINK_ARROW_HEAD_SIZE = 3
+LINK_LINE_WIDTH = 2
+LINK_ARROW_HEAD_SIZE = 4
 LINK_COLOR = (50, 50, 150)
 
 MESSAGE_SIZE = 3
@@ -74,6 +77,12 @@ class Engine:
 
 
     def init(self) -> None:
+        print("""
+        Keys:
+          - M:     Inject a new message at note #0
+          - SPACE: Run a simulation step
+          - ESC:   Exit
+        """)
         self.simulation = Simulation()
 
 
@@ -118,25 +127,22 @@ class Engine:
     
 
     def draw_axis(self) -> None:
-        width = SCREEN_GEOMETRY[0]
-        height = SCREEN_GEOMETRY[1]
+        pygame.draw.line(self.screen, AXIS_COLOR, (0, SCREEN_HEIGHT/2), (SCREEN_WIDTH, SCREEN_HEIGHT/2))
+        pygame.draw.line(self.screen, AXIS_COLOR, (SCREEN_WIDTH/2, 0), (SCREEN_WIDTH/2, SCREEN_HEIGHT))
 
-        pygame.draw.line(self.screen, AXIS_COLOR, (0, height/2), (width, height/2))
-        pygame.draw.line(self.screen, AXIS_COLOR, (width/2, 0), (width/2, height))
-
-        for i in range(1, int(width/DISTANCE_UNIT_SIZE)):
+        for i in range(1, int(SCREEN_WIDTH/GRID_SIZE)):
             pygame.draw.line(
                 self.screen,
                 AXIS_COLOR,
-                (DISTANCE_UNIT_SIZE * i, height/2 - 4),
-                (DISTANCE_UNIT_SIZE * i, height/2 + 4))
+                (GRID_SIZE * i, SCREEN_HEIGHT/2 - 4),
+                (GRID_SIZE * i, SCREEN_HEIGHT/2 + 4))
 
-        for i in range(1, int(width/DISTANCE_UNIT_SIZE)):
+        for i in range(1, int(SCREEN_WIDTH/GRID_SIZE)):
             pygame.draw.line(
                 self.screen,
                 AXIS_COLOR,
-                (width/2 - 4, DISTANCE_UNIT_SIZE * i),
-                (width/2 + 4, DISTANCE_UNIT_SIZE * i))
+                (SCREEN_WIDTH/2 - 4, GRID_SIZE * i),
+                (SCREEN_WIDTH/2 + 4, GRID_SIZE * i))
 
 
     def draw_node(self, node: Node) -> None:
@@ -164,15 +170,12 @@ class Engine:
 
     def draw_node_range(self, node: Node) -> None:
         center = node_to_screen_pos(node)
-        pygame.draw.circle(self.screen, NODE_RANGE_COLOR, (center.x, center.y), node.power * DISTANCE_UNIT_SIZE, NODE_RANGE_BORDER_SIZE)
+        pygame.draw.circle(self.screen, NODE_RANGE_COLOR, (center.x, center.y), node.power * GRID_SIZE, NODE_RANGE_BORDER_SIZE)
 
 
     def draw_link(self, from_node: Node, to_node: Node) -> None:
-        width = SCREEN_GEOMETRY[0]
-        height = SCREEN_GEOMETRY[1]
-
-        from_pos = (Point(from_node.pos.x, -from_node.pos.y) * DISTANCE_UNIT_SIZE) + (Point(width, height) / 2)
-        to_pos = (Point(to_node.pos.x, -to_node.pos.y) * DISTANCE_UNIT_SIZE) + (Point(width, height) / 2)
+        from_pos = (Point(from_node.pos.x, -from_node.pos.y) * GRID_SIZE) + (Point(SCREEN_WIDTH, SCREEN_HEIGHT) / 2)
+        to_pos = (Point(to_node.pos.x, -to_node.pos.y) * GRID_SIZE) + (Point(SCREEN_WIDTH, SCREEN_HEIGHT) / 2)
 
         from_pos, to_pos = shrink_line(from_pos, to_pos, NODE_SIZE + NODE_BORDER_SIZE * 2)
 
@@ -204,9 +207,7 @@ def shrink_line(from_pos: Point, to_pos: Point, reduction: int) -> Tuple[Point, 
 
 
 def node_to_screen_pos(node: Node) -> Point:
-    width = SCREEN_GEOMETRY[0]
-    height = SCREEN_GEOMETRY[1]
-    return (Point(node.pos.x, -node.pos.y) * DISTANCE_UNIT_SIZE) + (Point(width, height) / 2)
+    return (Point(node.pos.x, -node.pos.y) * GRID_SIZE) + (Point(SCREEN_WIDTH, SCREEN_HEIGHT) / 2)
 
 
 if __name__ == '__main__':
