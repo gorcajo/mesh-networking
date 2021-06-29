@@ -1,8 +1,11 @@
+import logging
 import math
 
 import pygame
 
-from model import Simulation, Medium, Node, Message, Position
+from model.simulation import Simulation
+from model.node import Node
+from model.position import Position
 
 
 SCREEN_GEOMETRY = (800, 600)
@@ -23,6 +26,12 @@ LINK_COLOR = (150, 150, 255)
 
 FONT_FAMILY = 'monospace'
 FONT_SIZE = 19
+
+
+logging.basicConfig(
+    format  = '%(asctime)-5s.%(msecs)03d | %(levelname)-7s | %(message)s',
+    level   = logging.INFO,
+    datefmt = '%Y-%m-%d %H:%M:%S')
 
 
 class Engine:
