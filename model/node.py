@@ -19,6 +19,10 @@ class Node:
         logging.info(f'{self} received {message}')
 
 
+    def create_message(self, message: Message) -> None:
+        raise NotImplementedError()
+
+
     def process_next_message(self, message: Message) -> None:
         raise NotImplementedError()
 
@@ -42,8 +46,16 @@ class FloodingNode(Node):
 
     def __init__(self, node_id: int, pos: Point, power: int) -> None:
         super().__init__(node_id, pos, power)
+
+        self.next_message_id = 0
+
         self.consumed_message_ids: List[int] = []
         self.relayed_message_ids: List[int] = []
+
+
+    def create_message(self) -> None:
+        self.receive_message(FloodingMessage(message_id=self.next_message_id, destination_id=4, payload='test'))
+        self.next_message_id += 1
 
 
     def process_next_message(self, message: Message) -> None:
@@ -72,10 +84,14 @@ class RoutingNode(Node):
         super().__init__(node_id, pos, power)
 
 
+    def create_message(self) -> None:
+        pass # TODO
+
+
     def process_next_message(self, message: Message) -> None:
         pass # TODO
 
 
 from model.medium import Medium
-from model.message import Message
+from model.message import Message, FloodingMessage, RoutingMessage
 from model.point import Point

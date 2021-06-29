@@ -9,7 +9,6 @@ NODES_DEFINITION = yaml.safe_load(open('nodes.yml', 'r'))
 class Simulation:
 
     def __init__(self) -> None:
-        self.next_message_id = 0
         self.step = 0
 
         self.medium = Medium()
@@ -29,16 +28,7 @@ class Simulation:
 
 
     def inject_new_message(self) -> None:
-        master_node = self.medium.find_node_by_id(0)
-
-        if type(master_node) == FloodingNode:
-            master_node.receive_message(FloodingMessage(message_id=self.next_message_id, destination_id=4, payload='test'))
-        elif type(master_node) == RoutingNode:
-            pass # TODO
-        else:
-            raise ValueError()
-
-        self.next_message_id += 1
+        self.medium.find_node_by_id(0).create_message()
 
 
     def run_step(self) -> None:
