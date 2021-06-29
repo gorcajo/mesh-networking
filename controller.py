@@ -79,7 +79,7 @@ class Engine:
     def init(self) -> None:
         print('''
         Keys:
-          - M:     Inject a new message at note #0
+          - M:     Inject a new message
           - SPACE: Run a simulation step
           - R:     Reset and refresh
           - ESC:   Exit
