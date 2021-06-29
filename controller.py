@@ -22,12 +22,21 @@ NODE_BORDER_SIZE = 2
 NODE_COLOR = (180, 180, 250)
 NODE_BORDER_COLOR = (255, 255, 255)
 NODE_TEXT_COLOR = (70, 70, 70)
-NODE_RANGE_COLOR = (200, 200, 0)
+NODE_RANGE_COLOR = (100, 100, 0)
 NODE_RANGE_BORDER_SIZE = 2
 
 LINK_LINE_WIDTH = 1
 LINK_ARROW_HEAD_SIZE = 3
-LINK_COLOR = (150, 150, 255)
+LINK_COLOR = (50, 50, 150)
+
+MESSAGE_SIZE = 3
+MESSAGE_COLORS = [
+    (200, 200, 0),
+    (150, 150, 255),
+    (0, 150, 0),
+    (255, 70, 0),
+    (255, 255, 255),
+]
 
 FONT_FAMILY = 'monospace'
 FONT_SIZE = 12
@@ -75,6 +84,8 @@ class Engine:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     self.simulation.run_step()
+                elif event.key == pygame.K_m:
+                    self.simulation.inject_new_message()
                 elif event.key == pygame.K_ESCAPE:
                     self.running = False
 
@@ -99,6 +110,9 @@ class Engine:
 
         for node in self.simulation.medium.nodes:
             self.draw_node(node)
+
+        for node in self.simulation.medium.nodes:
+            self.draw_messages(node)
 
         pygame.display.update()
     
@@ -135,6 +149,17 @@ class Engine:
         text_x = center.x - (text.get_rect().width / 2)
         text_y = center.y - (text.get_rect().height / 2)
         self.screen.blit(text, (text_x, text_y))
+
+
+    def draw_messages(self, node: Node) -> None:
+        center = node_to_screen_pos(node)
+
+        for i, message in enumerate(node.input_queue):
+            x = center.x + NODE_SIZE + 4
+            y = center.y - NODE_SIZE + ((MESSAGE_SIZE + 1) * 2 * i)
+            color = MESSAGE_COLORS[message.id % len(MESSAGE_COLORS)]
+            pygame.draw.circle(self.screen, color, (x, y), MESSAGE_SIZE)
+
 
 
     def draw_node_range(self, node: Node) -> None:
