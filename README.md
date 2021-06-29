@@ -1,6 +1,6 @@
 # Mesh Networking Experiment
 
-Este proyecto es para experimentar con redes malladas de nodos de que se comunican por radiofrecuencia.
+Este proyecto es para experimentar con redes malladas mediante la simulación de nodos que se comunican por radiofrecuencia.
 
 ## 1. Tipos de redes malladas
 
