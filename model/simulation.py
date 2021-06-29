@@ -20,9 +20,9 @@ class Simulation:
             node_type = node['type']
 
             if node_type == 'flooding':
-                self.medium.add_node(FloodingNode(node_id, node_pos, node_power))
+                self.medium.add_node(FloodingNode(node_id, node_pos, node_power, self.medium))
             elif node_type == 'routing':
-                self.medium.add_node(RoutingNode(node_id, node_pos, node_power))
+                self.medium.add_node(RoutingNode(node_id, node_pos, node_power, self.medium))
             else:
                 raise ValueError()
 
@@ -35,10 +35,10 @@ class Simulation:
         logging.info(f'Running step #{self.step} ----------------------------------------------------------------')
 
         for node in self.medium.nodes:
-            node.process_next_message(self.medium)
+            node.process_next_message()
 
         for node in self.medium.nodes:
-            node.emit_next_message(self.medium)
+            node.emit_next_message()
 
         self.step += 1
 

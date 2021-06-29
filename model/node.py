@@ -5,10 +5,11 @@ from typing import List
 
 class Node:
 
-    def __init__(self, node_id: int, pos: Point, power: int) -> None:
-        self.id: int = node_id
-        self.pos: Point = pos
-        self.power: int = power
+    def __init__(self, node_id: int, pos: Point, power: int, medium: Medium) -> None:
+        self.id = node_id
+        self.pos = pos
+        self.power = power
+        self.medium = medium
 
         self.input_queue: List[Message] = []
         self.output_queue: List[Message] = []
@@ -19,18 +20,18 @@ class Node:
         logging.info(f'{self} received {message}')
 
 
-    def create_message(self, message: Message) -> None:
+    def create_message(self) -> None:
         raise NotImplementedError()
 
 
-    def process_next_message(self, message: Message) -> None:
+    def process_next_message(self) -> None:
         raise NotImplementedError()
 
 
-    def emit_next_message(self, medium: Medium) -> None:
+    def emit_next_message(self) -> None:
         if len(self.output_queue) > 0:
             message = self.output_queue.pop(0)
-            medium.propagate_message(message, self)
+            self.medium.propagate_message(message, self)
             logging.debug(f'{self} emitted {message}')
 
 
@@ -44,8 +45,8 @@ class Node:
 
 class FloodingNode(Node):
 
-    def __init__(self, node_id: int, pos: Point, power: int) -> None:
-        super().__init__(node_id, pos, power)
+    def __init__(self, node_id: int, pos: Point, power: int, medium: Medium) -> None:
+        super().__init__(node_id, pos, power, medium)
 
         self.next_message_id = 0
 
@@ -58,7 +59,7 @@ class FloodingNode(Node):
         self.next_message_id += 1
 
 
-    def process_next_message(self, message: Message) -> None:
+    def process_next_message(self) -> None:
         if len(self.input_queue) > 0:
             message = self.input_queue.pop(0)
 
@@ -80,15 +81,15 @@ class FloodingNode(Node):
 
 class RoutingNode(Node):
 
-    def __init__(self, node_id: int, pos: Point, power: int) -> None:
-        super().__init__(node_id, pos, power)
+    def __init__(self, node_id: int, pos: Point, power: int, medium: Medium) -> None:
+        super().__init__(node_id, pos, power, medium)
 
 
     def create_message(self) -> None:
         pass # TODO
 
 
-    def process_next_message(self, message: Message) -> None:
+    def process_next_message(self) -> None:
         pass # TODO
 
 
