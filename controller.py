@@ -6,7 +6,7 @@ import pygame
 
 from model.simulation import Simulation
 from model.node import Node
-from model.position import Position
+from model.point import Point
 
 
 SCREEN_GEOMETRY = (1200, 900)
@@ -123,7 +123,7 @@ class Engine:
         width = SCREEN_GEOMETRY[0]
         height = SCREEN_GEOMETRY[1]
 
-        center = (Position(node.pos.x, -node.pos.y) * DISTANCE_UNIT_SIZE) + (Position(width, height) / 2)
+        center = (Point(node.pos.x, -node.pos.y) * DISTANCE_UNIT_SIZE) + (Point(width, height) / 2)
 
         pygame.draw.circle(self.screen, NODE_COLOR, (center.x, center.y), NODE_SIZE - NODE_BORDER_SIZE)
         pygame.draw.circle(self.screen, NODE_BORDER_COLOR, (center.x, center.y), NODE_SIZE, NODE_BORDER_SIZE)
@@ -138,7 +138,7 @@ class Engine:
         width = SCREEN_GEOMETRY[0]
         height = SCREEN_GEOMETRY[1]
 
-        center = (Position(node.pos.x, -node.pos.y) * DISTANCE_UNIT_SIZE) + (Position(width, height) / 2)
+        center = (Point(node.pos.x, -node.pos.y) * DISTANCE_UNIT_SIZE) + (Point(width, height) / 2)
 
         pygame.draw.circle(self.screen, NODE_RANGE_COLOR, (center.x, center.y), node.power * DISTANCE_UNIT_SIZE, 1)
 
@@ -147,8 +147,8 @@ class Engine:
         width = SCREEN_GEOMETRY[0]
         height = SCREEN_GEOMETRY[1]
 
-        from_pos = (Position(from_node.pos.x, -from_node.pos.y) * DISTANCE_UNIT_SIZE) + (Position(width, height) / 2)
-        to_pos = (Position(to_node.pos.x, -to_node.pos.y) * DISTANCE_UNIT_SIZE) + (Position(width, height) / 2)
+        from_pos = (Point(from_node.pos.x, -from_node.pos.y) * DISTANCE_UNIT_SIZE) + (Point(width, height) / 2)
+        to_pos = (Point(to_node.pos.x, -to_node.pos.y) * DISTANCE_UNIT_SIZE) + (Point(width, height) / 2)
 
         from_pos, to_pos = shrink_line(from_pos, to_pos, NODE_SIZE + NODE_BORDER_SIZE * 2)
 
@@ -171,10 +171,10 @@ class Engine:
         pygame.draw.polygon(self.screen, LINK_COLOR, (triangle_vertice_0, triangle_vertice_1, triangle_vertice_2))
 
 
-def shrink_line(from_pos: Position, to_pos: Position, reduction: int) -> Tuple[Position, Position]:
+def shrink_line(from_pos: Point, to_pos: Point, reduction: int) -> Tuple[Point, Point]:
     line = to_pos - from_pos
     new_modulus = line.modulus - reduction
-    line = Position.from_polar(new_modulus, line.angle)
+    line = Point.from_polar(new_modulus, line.angle)
     to_pos = line + from_pos
     return (from_pos, to_pos)
 

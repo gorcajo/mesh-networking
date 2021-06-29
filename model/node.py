@@ -5,9 +5,9 @@ from typing import List
 
 class Node:
 
-    def __init__(self, node_id: int, pos: Position, power: int) -> None:
+    def __init__(self, node_id: int, pos: Point, power: int) -> None:
         self.id: int = node_id
-        self.pos: Position = pos
+        self.pos: Point = pos
         self.power: int = power
 
         self.input_queue: List[Message] = []
@@ -59,4 +59,4 @@ class Node:
 
 from model.medium import Medium
 from model.message import Message
-from model.position import Position
+from model.point import Point

@@ -20,7 +20,7 @@ class Medium:
                 node.receive_message(message)
 
 
-    def get_nodes_in_range_of(self, pos: Position, range: int) -> List[Node]:
+    def get_nodes_in_range_of(self, pos: Point, range: int) -> List[Node]:
         for node in self.nodes:
             if node.pos.distance_to(pos) <= range:
                 yield node
@@ -36,4 +36,4 @@ class Medium:
 
 from model.message import Message
 from model.node import Node
-from model.position import Position
+from model.point import Point

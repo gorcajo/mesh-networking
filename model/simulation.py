@@ -17,7 +17,7 @@ class Simulation:
             self.medium.add_node(
                 Node(
                     node['id'],
-                    Position(node['pos']['x'], node['pos']['y']),
+                    Point(node['pos']['x'], node['pos']['y']),
                     node['power']))
 
 
@@ -40,4 +40,4 @@ class Simulation:
 from model.medium import Medium
 from model.message import Message
 from model.node import Node
-from model.position import Position
+from model.point import Point
