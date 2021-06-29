@@ -13,16 +13,16 @@ class Medium:
 
 
     def propagate_message(self, message: Message, emitter: Node) -> None:
-        receiving_nodes = self.get_nodes_in_range_of(emitter.pos, emitter.power)
+        receiving_nodes = self.get_nodes_in_range_of(emitter)
 
         for node in receiving_nodes:
             if node.id != emitter.id:
                 node.receive_message(message)
 
 
-    def get_nodes_in_range_of(self, pos: Point, range: int) -> List[Node]:
+    def get_nodes_in_range_of(self, central_node: Node) -> List[Node]:
         for node in self.nodes:
-            if node.pos.distance_to(pos) <= range:
+            if node.pos.distance_to(central_node.pos) <= central_node.power:
                 yield node
 
 
@@ -36,4 +36,3 @@ class Medium:
 
 from message import Message
 from node import Node
-from point import Point
