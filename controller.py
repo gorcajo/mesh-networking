@@ -8,19 +8,22 @@ from model.node import Node
 from model.position import Position
 
 
-SCREEN_GEOMETRY = (800, 600)
+SCREEN_GEOMETRY = (1200, 900)
 
-DISTANCE_UNIT_SIZE = 25
+DISTANCE_UNIT_SIZE = 30
 
 BACKGROUND_COLOR = (20, 20, 20)
 
-AXIS_COLOR = (25, 25, 25)
+AXIS_COLOR = (40, 40, 40)
 
-NODE_SIZE = 4
-NODE_COLOR = (255, 255, 255)
-NODE_TEXT_COLOR = (150, 150, 150)
+NODE_SIZE = 15
+NODE_BORDER_SIZE = 2
+NODE_COLOR = (180, 180, 250)
+NODE_BORDER_COLOR = (255, 255, 255)
+NODE_TEXT_COLOR = (70, 70, 70)
 NODE_RANGE_COLOR = (40, 40, 0)
 
+LINK_LINE_WIDTH = 2
 LINK_ARROW_HEAD_SIZE = 4
 LINK_COLOR = (150, 150, 255)
 
@@ -42,7 +45,7 @@ class Engine:
         self.font = pygame.font.SysFont(FONT_FAMILY, FONT_SIZE)
 
         self.screen = pygame.display.set_mode(SCREEN_GEOMETRY, 0, 32)
-        pygame.display.set_caption('Network Viewer')
+        pygame.display.set_caption('Mesh Viewer')
 
         self.running = False
 
@@ -120,7 +123,14 @@ class Engine:
         height = SCREEN_GEOMETRY[1]
 
         center = (Position(node.pos.x, -node.pos.y) * DISTANCE_UNIT_SIZE) + (Position(width, height) / 2)
-        self.screen.blit(self.font.render(str(node.id), False, NODE_TEXT_COLOR), (center.x + 2, center.y + 2))
+
+        pygame.draw.circle(self.screen, NODE_COLOR, (center.x, center.y), NODE_SIZE - NODE_BORDER_SIZE)
+        pygame.draw.circle(self.screen, NODE_BORDER_COLOR, (center.x, center.y), NODE_SIZE, NODE_BORDER_SIZE)
+
+        text = self.font.render(str(node.id), False, NODE_TEXT_COLOR)
+        text_x = center.x - (text.get_rect().width / 2)
+        text_y = center.y - (text.get_rect().height / 2)
+        self.screen.blit(text, (text_x, text_y))
 
 
     def draw_node_range(self, node: Node) -> None:
@@ -130,8 +140,6 @@ class Engine:
         center = (Position(node.pos.x, -node.pos.y) * DISTANCE_UNIT_SIZE) + (Position(width, height) / 2)
 
         pygame.draw.circle(self.screen, NODE_RANGE_COLOR, (center.x, center.y), node.power * DISTANCE_UNIT_SIZE, 1)
-        pygame.draw.circle(self.screen, NODE_COLOR, (center.x, center.y), NODE_SIZE)
-        self.screen.blit(self.font.render(str(node.id), False, NODE_TEXT_COLOR), (center.x + 2, center.y + 2))
 
 
     def draw_link(self, from_pos: Position, to_pos: Position, arrow_head: bool = False) -> None:
@@ -141,7 +149,7 @@ class Engine:
         from_pos = (Position(from_pos.x, -from_pos.y) * DISTANCE_UNIT_SIZE) + (Position(width, height) / 2)
         to_pos = (Position(to_pos.x, -to_pos.y) * DISTANCE_UNIT_SIZE) + (Position(width, height) / 2)
 
-        pygame.draw.line(self.screen, LINK_COLOR, (from_pos.x, from_pos.y), (to_pos.x, to_pos.y))
+        pygame.draw.line(self.screen, LINK_COLOR, (from_pos.x, from_pos.y), (to_pos.x, to_pos.y), LINK_LINE_WIDTH)
 
         if arrow_head:
             rotation = math.degrees(math.atan2(from_pos.y - to_pos.y, to_pos.x - from_pos.x)) + 90
