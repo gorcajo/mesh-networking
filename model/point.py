@@ -1,13 +1,24 @@
 from __future__ import annotations
+from typing import Tuple
 import math
 
 
 class Point:
 
     @classmethod
+    def from_mouse_pos(cls, mouse_pos: Tuple[int, int]) -> Point:
+        return Point(mouse_pos[0], mouse_pos[1])
+
+
+    @classmethod
     def from_polar(cls, modulus: float, angle: float) -> Point:
         x = modulus * math.cos(angle)
         y = modulus * math.sin(angle)
+        return Point(x, y)
+
+
+    @classmethod
+    def from_cartesian(cls, x: int, y: int) -> Point:
         return Point(x, y)
 
 

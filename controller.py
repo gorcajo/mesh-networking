@@ -17,19 +17,20 @@ BACKGROUND_COLOR = (20, 20, 20)
 
 AXIS_COLOR = (40, 40, 40)
 
-NODE_SIZE = 15
+NODE_SIZE = 10
 NODE_BORDER_SIZE = 2
 NODE_COLOR = (180, 180, 250)
 NODE_BORDER_COLOR = (255, 255, 255)
 NODE_TEXT_COLOR = (70, 70, 70)
-NODE_RANGE_COLOR = (40, 40, 0)
+NODE_RANGE_COLOR = (200, 200, 0)
+NODE_RANGE_BORDER_SIZE = 2
 
 LINK_LINE_WIDTH = 1
 LINK_ARROW_HEAD_SIZE = 3
 LINK_COLOR = (150, 150, 255)
 
 FONT_FAMILY = 'monospace'
-FONT_SIZE = 19
+FONT_SIZE = 12
 
 
 logging.basicConfig(
@@ -83,8 +84,13 @@ class Engine:
 
         self.draw_axis()
 
+        mouse_pos = Point.from_mouse_pos(pygame.mouse.get_pos())
+
         for node in self.simulation.medium.nodes:
-            self.draw_node_range(node)
+            center = node_to_screen_pos(node)
+
+            if mouse_pos.distance_to(center) <= NODE_SIZE:
+                self.draw_node_range(node)
 
         for node in self.simulation.medium.nodes:
             for other in self.simulation.medium.nodes:
@@ -120,10 +126,7 @@ class Engine:
 
 
     def draw_node(self, node: Node) -> None:
-        width = SCREEN_GEOMETRY[0]
-        height = SCREEN_GEOMETRY[1]
-
-        center = (Point(node.pos.x, -node.pos.y) * DISTANCE_UNIT_SIZE) + (Point(width, height) / 2)
+        center = node_to_screen_pos(node)
 
         pygame.draw.circle(self.screen, NODE_COLOR, (center.x, center.y), NODE_SIZE - NODE_BORDER_SIZE)
         pygame.draw.circle(self.screen, NODE_BORDER_COLOR, (center.x, center.y), NODE_SIZE, NODE_BORDER_SIZE)
@@ -135,12 +138,8 @@ class Engine:
 
 
     def draw_node_range(self, node: Node) -> None:
-        width = SCREEN_GEOMETRY[0]
-        height = SCREEN_GEOMETRY[1]
-
-        center = (Point(node.pos.x, -node.pos.y) * DISTANCE_UNIT_SIZE) + (Point(width, height) / 2)
-
-        pygame.draw.circle(self.screen, NODE_RANGE_COLOR, (center.x, center.y), node.power * DISTANCE_UNIT_SIZE, 1)
+        center = node_to_screen_pos(node)
+        pygame.draw.circle(self.screen, NODE_RANGE_COLOR, (center.x, center.y), node.power * DISTANCE_UNIT_SIZE, NODE_RANGE_BORDER_SIZE)
 
 
     def draw_link(self, from_node: Node, to_node: Node) -> None:
@@ -177,6 +176,12 @@ def shrink_line(from_pos: Point, to_pos: Point, reduction: int) -> Tuple[Point, 
     line = Point.from_polar(new_modulus, line.angle)
     to_pos = line + from_pos
     return (from_pos, to_pos)
+
+
+def node_to_screen_pos(node: Node) -> Point:
+    width = SCREEN_GEOMETRY[0]
+    height = SCREEN_GEOMETRY[1]
+    return (Point(node.pos.x, -node.pos.y) * DISTANCE_UNIT_SIZE) + (Point(width, height) / 2)
 
 
 if __name__ == '__main__':
