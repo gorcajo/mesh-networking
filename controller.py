@@ -1,5 +1,6 @@
 import logging
 import math
+from typing import Tuple
 
 import pygame
 
@@ -23,8 +24,8 @@ NODE_BORDER_COLOR = (255, 255, 255)
 NODE_TEXT_COLOR = (70, 70, 70)
 NODE_RANGE_COLOR = (40, 40, 0)
 
-LINK_LINE_WIDTH = 2
-LINK_ARROW_HEAD_SIZE = 4
+LINK_LINE_WIDTH = 1
+LINK_ARROW_HEAD_SIZE = 3
 LINK_COLOR = (150, 150, 255)
 
 FONT_FAMILY = 'monospace'
@@ -87,8 +88,8 @@ class Engine:
 
         for node in self.simulation.medium.nodes:
             for other in self.simulation.medium.nodes:
-                if node.pos.distance_to(other.pos) <= node.power:
-                    self.draw_link(node.pos, other.pos)
+                if node.pos.distance_to(other.pos) <= node.power and node.id != other.id:
+                    self.draw_link(node, other)
 
         for node in self.simulation.medium.nodes:
             self.draw_node(node)
@@ -142,31 +143,40 @@ class Engine:
         pygame.draw.circle(self.screen, NODE_RANGE_COLOR, (center.x, center.y), node.power * DISTANCE_UNIT_SIZE, 1)
 
 
-    def draw_link(self, from_pos: Position, to_pos: Position, arrow_head: bool = False) -> None:
+    def draw_link(self, from_node: Node, to_node: Node) -> None:
         width = SCREEN_GEOMETRY[0]
         height = SCREEN_GEOMETRY[1]
 
-        from_pos = (Position(from_pos.x, -from_pos.y) * DISTANCE_UNIT_SIZE) + (Position(width, height) / 2)
-        to_pos = (Position(to_pos.x, -to_pos.y) * DISTANCE_UNIT_SIZE) + (Position(width, height) / 2)
+        from_pos = (Position(from_node.pos.x, -from_node.pos.y) * DISTANCE_UNIT_SIZE) + (Position(width, height) / 2)
+        to_pos = (Position(to_node.pos.x, -to_node.pos.y) * DISTANCE_UNIT_SIZE) + (Position(width, height) / 2)
+
+        from_pos, to_pos = shrink_line(from_pos, to_pos, NODE_SIZE + NODE_BORDER_SIZE * 2)
 
         pygame.draw.line(self.screen, LINK_COLOR, (from_pos.x, from_pos.y), (to_pos.x, to_pos.y), LINK_LINE_WIDTH)
 
-        if arrow_head:
-            rotation = math.degrees(math.atan2(from_pos.y - to_pos.y, to_pos.x - from_pos.x)) + 90
+        rotation = math.degrees(math.atan2(from_pos.y - to_pos.y, to_pos.x - from_pos.x)) + 90
 
-            triangle_vertice_0 = (
-                to_pos.x + LINK_ARROW_HEAD_SIZE * math.sin(math.radians(rotation)),
-                to_pos.y + LINK_ARROW_HEAD_SIZE * math.cos(math.radians(rotation)))
+        triangle_vertice_0 = (
+            to_pos.x + LINK_ARROW_HEAD_SIZE * math.sin(math.radians(rotation)),
+            to_pos.y + LINK_ARROW_HEAD_SIZE * math.cos(math.radians(rotation)))
 
-            triangle_vertice_1 = (
-                to_pos.x + LINK_ARROW_HEAD_SIZE * math.sin(math.radians(rotation - 120)),
-                to_pos.y + LINK_ARROW_HEAD_SIZE * math.cos(math.radians(rotation - 120)))
+        triangle_vertice_1 = (
+            to_pos.x + LINK_ARROW_HEAD_SIZE * math.sin(math.radians(rotation - 120)),
+            to_pos.y + LINK_ARROW_HEAD_SIZE * math.cos(math.radians(rotation - 120)))
 
-            triangle_vertice_2 = (
-                to_pos.x + LINK_ARROW_HEAD_SIZE * math.sin(math.radians(rotation + 120)),
-                to_pos.y + LINK_ARROW_HEAD_SIZE * math.cos(math.radians(rotation + 120)))
+        triangle_vertice_2 = (
+            to_pos.x + LINK_ARROW_HEAD_SIZE * math.sin(math.radians(rotation + 120)),
+            to_pos.y + LINK_ARROW_HEAD_SIZE * math.cos(math.radians(rotation + 120)))
 
-            pygame.draw.polygon(self.screen, LINK_COLOR, (triangle_vertice_0, triangle_vertice_1, triangle_vertice_2))
+        pygame.draw.polygon(self.screen, LINK_COLOR, (triangle_vertice_0, triangle_vertice_1, triangle_vertice_2))
+
+
+def shrink_line(from_pos: Position, to_pos: Position, reduction: int) -> Tuple[Position, Position]:
+    line = to_pos - from_pos
+    new_modulus = line.modulus - reduction
+    line = Position.from_polar(new_modulus, line.angle)
+    to_pos = line + from_pos
+    return (from_pos, to_pos)
 
 
 if __name__ == '__main__':

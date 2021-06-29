@@ -4,13 +4,30 @@ import math
 
 class Position:
 
+    @classmethod
+    def from_polar(cls, modulus: float, angle: float) -> Position:
+        x = modulus * math.cos(angle)
+        y = modulus * math.sin(angle)
+        return Position(x, y)
+
+
     def __init__(self, x: int, y: int) -> None:
-        self.x: int = x
-        self.y: int = y
+        self.x = x
+        self.y = y
 
 
     def distance_to(self, other: Position) -> float:
         return math.sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2)
+
+
+    @property
+    def modulus(self)-> float:
+        return math.hypot(self.x, self.y)
+
+
+    @property
+    def angle(self)-> float:
+        return math.atan2(self.y, self.x)
 
 
     def __add__(self, other: Position) -> Position:
@@ -30,4 +47,4 @@ class Position:
 
 
     def __str__(self) -> str:
-        return f'({self.x}, {self.y})'
+        return f'Point({self.x}, {self.y})'
