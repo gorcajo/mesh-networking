@@ -73,7 +73,7 @@ class RoutingNode(Node):
 
 
     def process_next_message(self, message: Message) -> None:
-        pass
+        pass # TODO
 
 
 from model.medium import Medium

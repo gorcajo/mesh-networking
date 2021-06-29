@@ -29,8 +29,15 @@ class Simulation:
 
 
     def inject_new_message(self) -> None:
-        message = Message(message_id=self.next_message_id, destination_id=4, payload='test')
-        self.medium.find_node_by_id(0).receive_message(message)
+        master_node = self.medium.find_node_by_id(0)
+
+        if type(master_node) == FloodingNode:
+            master_node.receive_message(FloodingMessage(message_id=self.next_message_id, destination_id=4, payload='test'))
+        elif type(master_node) == RoutingNode:
+            pass # TODO
+        else:
+            raise ValueError()
+
         self.next_message_id += 1
 
 
@@ -47,6 +54,6 @@ class Simulation:
 
 
 from model.medium import Medium
-from model.message import Message
+from model.message import FloodingMessage, RoutingMessage
 from model.node import FloodingNode, RoutingNode
 from model.point import Point
