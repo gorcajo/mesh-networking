@@ -34,6 +34,6 @@ class Medium:
         return None
 
 
-from model.message import Message
-from model.node import Node
-from model.point import Point
+from message import Message
+from node import Node
+from point import Point

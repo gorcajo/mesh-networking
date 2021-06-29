@@ -43,7 +43,6 @@ class Simulation:
         self.step += 1
 
 
-from model.medium import Medium
-from model.message import FloodingMessage, RoutingMessage
-from model.node import FloodingNode, RoutingNode
-from model.point import Point
+from medium import Medium
+from node import FloodingNode, RoutingNode
+from point import Point

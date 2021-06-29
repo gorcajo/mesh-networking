@@ -93,6 +93,6 @@ class RoutingNode(Node):
         pass # TODO
 
 
-from model.medium import Medium
-from model.message import Message, FloodingMessage, RoutingMessage
-from model.point import Point
+from medium import Medium
+from message import Message, FloodingMessage, RoutingMessage
+from point import Point

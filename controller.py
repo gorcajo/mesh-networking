@@ -4,9 +4,9 @@ from typing import Tuple
 
 import pygame
 
-from model.simulation import Simulation
-from model.node import Node
-from model.point import Point
+from simulation import Simulation
+from node import Node
+from point import Point
 
 
 GRID_SIZE = 30
