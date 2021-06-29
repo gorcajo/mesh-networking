@@ -15,11 +15,17 @@ class Simulation:
         self.medium = Medium()
 
         for node in NODES_DEFINITION:
-            self.medium.add_node(
-                Node(
-                    node['id'],
-                    Point(node['pos']['x'], node['pos']['y']),
-                    node['power']))
+            node_id = node['id']
+            node_pos = Point(node['pos']['x'], node['pos']['y'])
+            node_power = node['power']
+            node_type = node['type']
+
+            if node_type == 'flooding':
+                self.medium.add_node(FloodingNode(node_id, node_pos, node_power))
+            elif node_type == 'routing':
+                self.medium.add_node(RoutingNode(node_id, node_pos, node_power))
+            else:
+                raise ValueError()
 
 
     def inject_new_message(self) -> None:
@@ -42,5 +48,5 @@ class Simulation:
 
 from model.medium import Medium
 from model.message import Message
-from model.node import Node
+from model.node import FloodingNode, RoutingNode
 from model.point import Point

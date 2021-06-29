@@ -13,13 +13,37 @@ class Node:
         self.input_queue: List[Message] = []
         self.output_queue: List[Message] = []
 
-        self.consumed_message_ids: List[int] = []
-        self.relayed_message_ids: List[int] = []
-
 
     def receive_message(self, message: Message) -> None:
         self.input_queue.append(message)
         logging.info(f'{self} received {message}')
+
+
+    def process_next_message(self, message: Message) -> None:
+        raise NotImplementedError()
+
+
+    def emit_next_message(self, medium: Medium) -> None:
+        if len(self.output_queue) > 0:
+            message = self.output_queue.pop(0)
+            medium.propagate_message(message, self)
+            logging.debug(f'{self} emitted {message}')
+
+
+    def consume_message(self, message: Message) -> None:
+        logging.debug(f'{self} consuming {message}')
+
+
+    def __str__(self) -> str:
+        return f'Node(id={self.id})'
+
+
+class FloodingNode(Node):
+
+    def __init__(self, node_id: int, pos: Point, power: int) -> None:
+        super().__init__(node_id, pos, power)
+        self.consumed_message_ids: List[int] = []
+        self.relayed_message_ids: List[int] = []
 
 
     def process_next_message(self, message: Message) -> None:
@@ -42,19 +66,14 @@ class Node:
             logging.debug(f'{self} processed {message}')
 
 
-    def emit_next_message(self, medium: Medium) -> None:
-        if len(self.output_queue) > 0:
-            message = self.output_queue.pop(0)
-            medium.propagate_message(message, self)
-            logging.debug(f'{self} emitted {message}')
+class RoutingNode(Node):
+
+    def __init__(self, node_id: int, pos: Point, power: int) -> None:
+        super().__init__(node_id, pos, power)
 
 
-    def consume_message(self, message: Message) -> None:
-        logging.debug(f'{self} consuming {message}')
-
-
-    def __str__(self) -> str:
-        return f'Node(id={self.id})'
+    def process_next_message(self, message: Message) -> None:
+        pass
 
 
 from model.medium import Medium

@@ -77,12 +77,12 @@ class Engine:
 
 
     def init(self) -> None:
-        print("""
+        print('''
         Keys:
           - M:     Inject a new message at note #0
           - SPACE: Run a simulation step
           - ESC:   Exit
-        """)
+        ''')
         self.simulation = Simulation()
 
 
