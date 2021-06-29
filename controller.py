@@ -81,6 +81,7 @@ class Engine:
         Keys:
           - M:     Inject a new message at note #0
           - SPACE: Run a simulation step
+          - R:     Reset and refresh
           - ESC:   Exit
         ''')
         self.simulation = Simulation()
@@ -95,6 +96,8 @@ class Engine:
                     self.simulation.run_step()
                 elif event.key == pygame.K_m:
                     self.simulation.inject_new_message()
+                elif event.key == pygame.K_r:
+                    self.simulation.refresh()
                 elif event.key == pygame.K_ESCAPE:
                     self.running = False
 
