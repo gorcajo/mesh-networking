@@ -29,13 +29,15 @@ class Simulation:
             else:
                 raise ValueError()
 
+        logging.info(f'Simulation initialized')
+
 
     def inject_new_message(self) -> None:
         self.medium.find_node_by_id(0).create_message()
 
 
     def run_step(self) -> None:
-        logging.info(f'Running step #{self.step} ----------------------------------------------------------------')
+        logging.info(f'Running step #{self.step}')
 
         for node in self.medium.nodes:
             node.process_next_message()
