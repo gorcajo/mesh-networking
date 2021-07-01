@@ -17,7 +17,7 @@ class Medium:
 
         for node in receiving_nodes:
             if node.id != emitter.id:
-                node.receive_message(message)
+                node.receive_message(message.clone)
 
 
     def get_nodes_in_range_of(self, central_node: Node) -> List[Node]:

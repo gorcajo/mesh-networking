@@ -59,7 +59,6 @@ Los nodos deben implementar lógica y pueden tener memoria. Los mensajes no debe
 
 ## 5. To-do list
 
-- Para reflejar mejor el dominio los mensajes deberían ser clonados por la clase Medium cuando son transmitidos (ahora mismo se están pasando los mensajes por referencia, lo que daría lugar a problemas con las routing networks o con TTL).
 - Estado de los nodos:
   - Implementar la pérdida de memoria al pasar al estado offline. Impedir que un nodo haga nada cuando está offline.
   - Al pinchar en un nodo se hace toggle entre offline y online.
