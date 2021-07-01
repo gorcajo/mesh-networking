@@ -27,8 +27,8 @@ NODE_OFFLINE_COLOR = (30, 30, 30)
 NODE_ONLINE_BORDER_COLOR = (255, 255, 255)
 NODE_OFFLINE_BORDER_COLOR = (255, 80, 80)
 NODE_TEXT_COLOR = (80, 80, 80)
-NODE_RANGE_COLOR = (100, 100, 0)
-NODE_RANGE_BORDER_SIZE = 2
+NODE_POWER_COLOR = (255, 255, 0)
+NODE_POWER_BORDER_SIZE = 1
 
 LINK_LINE_WIDTH = 2
 LINK_ARROW_HEAD_SIZE = 4
@@ -121,6 +121,10 @@ class Engine:
             if mouse_pos.distance_to(node_to_screen_pos(node)) <= NODE_SIZE:
                 self.draw_node_range(node)
 
+                for other in self.simulation.medium.nodes:
+                    if node.id != other.id and node.pos.distance_to(other.pos) <= node.power:
+                        self.highlight_node(other)
+
         for node in self.simulation.medium.nodes:
             if not node.online:
                 continue
@@ -182,10 +186,14 @@ class Engine:
             pygame.draw.circle(self.screen, color, (x, y), MESSAGE_SIZE)
 
 
-
     def draw_node_range(self, node: Node) -> None:
         center = node_to_screen_pos(node)
-        pygame.draw.circle(self.screen, NODE_RANGE_COLOR, (center.x, center.y), node.power * GRID_SIZE, NODE_RANGE_BORDER_SIZE)
+        pygame.draw.circle(self.screen, NODE_POWER_COLOR, (center.x, center.y), node.power * GRID_SIZE, NODE_POWER_BORDER_SIZE)
+
+
+    def highlight_node(self, node: Node) -> None:
+        center = node_to_screen_pos(node)
+        pygame.draw.circle(self.screen, NODE_POWER_COLOR, (center.x, center.y), NODE_SIZE * 1.5, NODE_POWER_BORDER_SIZE)
 
 
     def draw_link(self, from_node: Node, to_node: Node) -> None:
