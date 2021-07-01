@@ -14,7 +14,7 @@ class Simulation:
 
         self.medium = Medium()
 
-        nodes_definition = yaml.safe_load(open('nodes.yml', 'r'))
+        nodes_definition = yaml.safe_load(open('src/nodes.yml', 'r'))
 
         for node in nodes_definition:
             node_id = int(node['id'])
