@@ -72,10 +72,13 @@ class Engine:
 
         self.init()
         
+        frame = 0
+
         while self.running:
-            self.update()
+            self.update(frame)
             self.draw()
             clock.tick(60)
+            frame += 1
 
 
     def init(self) -> None:
@@ -91,7 +94,10 @@ class Engine:
         self.simulation = Simulation()
 
 
-    def update(self) -> None:
+    def update(self, frame: int) -> None:
+        if frame % 20 == 0:
+            self.simulation.refresh_if_nodes_file_changed()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False

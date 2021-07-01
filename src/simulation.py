@@ -3,10 +3,33 @@ import logging
 import yaml
 
 
+NODES_FILE = 'src/nodes.yml'
+
+
 class Simulation:
 
     def __init__(self) -> None:
+        self.previous_nodes_file_hash: str = None
         self.refresh()
+
+
+    def get_nodes_file_hash(self) -> str:
+        import hashlib
+
+        BUF_SIZE = 65536
+
+        sha1 = hashlib.sha1()
+
+        with open(NODES_FILE, 'rb') as nodes_file:
+            while data := nodes_file.read(BUF_SIZE):
+                sha1.update(data)
+
+        return sha1.hexdigest()
+
+
+    def refresh_if_nodes_file_changed(self) -> None:
+        if self.previous_nodes_file_hash != self.get_nodes_file_hash():
+            self.refresh()
 
 
     def refresh(self) -> None:
@@ -14,7 +37,8 @@ class Simulation:
 
         self.medium = Medium()
 
-        nodes_definition = yaml.safe_load(open('src/nodes.yml', 'r'))
+        nodes_definition = yaml.safe_load(open(NODES_FILE, 'r'))
+        self.previous_nodes_file_hash = self.get_nodes_file_hash()
 
         for node in nodes_definition:
             node_id = int(node['id'])
