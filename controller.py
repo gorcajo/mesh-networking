@@ -80,11 +80,13 @@ class Engine:
 
     def init(self) -> None:
         print('''
-        Keys:
+        Controls:
           - M:     Inject a new message
           - SPACE: Run a simulation step
           - R:     Reset and refresh
           - ESC:   Exit
+          - Mouse over a node: Display power range and reached nodes
+          - Click on a node:   Toggle online/offline
         ''')
         self.simulation = Simulation()
 
