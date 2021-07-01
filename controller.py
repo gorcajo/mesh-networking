@@ -22,9 +22,11 @@ AXIS_COLOR = (40, 40, 40)
 
 NODE_SIZE = 10
 NODE_BORDER_SIZE = 2
-NODE_COLOR = (180, 180, 250)
-NODE_BORDER_COLOR = (255, 255, 255)
-NODE_TEXT_COLOR = (70, 70, 70)
+NODE_ONLINE_COLOR = (180, 180, 250)
+NODE_OFFLINE_COLOR = (30, 30, 30)
+NODE_ONLINE_BORDER_COLOR = (255, 255, 255)
+NODE_OFFLINE_BORDER_COLOR = (255, 80, 80)
+NODE_TEXT_COLOR = (80, 80, 80)
 NODE_RANGE_COLOR = (100, 100, 0)
 NODE_RANGE_BORDER_SIZE = 2
 
@@ -100,6 +102,12 @@ class Engine:
                     self.simulation.refresh()
                 elif event.key == pygame.K_ESCAPE:
                     self.running = False
+            elif event.type == pygame.MOUSEBUTTONUP:
+                mouse_pos = Point.from_mouse_pos(pygame.mouse.get_pos())
+
+                for node in self.simulation.medium.nodes:
+                    if mouse_pos.distance_to(node_to_screen_pos(node)) <= NODE_SIZE:
+                        node.online = not node.online
 
 
     def draw(self) -> None:
@@ -110,14 +118,15 @@ class Engine:
         mouse_pos = Point.from_mouse_pos(pygame.mouse.get_pos())
 
         for node in self.simulation.medium.nodes:
-            center = node_to_screen_pos(node)
-
-            if mouse_pos.distance_to(center) <= NODE_SIZE:
+            if mouse_pos.distance_to(node_to_screen_pos(node)) <= NODE_SIZE:
                 self.draw_node_range(node)
 
         for node in self.simulation.medium.nodes:
+            if not node.online:
+                continue
+
             for other in self.simulation.medium.nodes:
-                if node.pos.distance_to(other.pos) <= node.power and node.id != other.id:
+                if node.id != other.id and other.online and node.pos.distance_to(other.pos) <= node.power:
                     self.draw_link(node, other)
 
         for node in self.simulation.medium.nodes:
@@ -151,8 +160,11 @@ class Engine:
     def draw_node(self, node: Node) -> None:
         center = node_to_screen_pos(node)
 
-        pygame.draw.circle(self.screen, NODE_COLOR, (center.x, center.y), NODE_SIZE - NODE_BORDER_SIZE)
-        pygame.draw.circle(self.screen, NODE_BORDER_COLOR, (center.x, center.y), NODE_SIZE, NODE_BORDER_SIZE)
+        node_color = NODE_ONLINE_COLOR if node.online else NODE_OFFLINE_COLOR
+        node_border_color = NODE_ONLINE_BORDER_COLOR if node.online else NODE_OFFLINE_BORDER_COLOR
+        
+        pygame.draw.circle(self.screen, node_color, (center.x, center.y), NODE_SIZE - NODE_BORDER_SIZE)
+        pygame.draw.circle(self.screen, node_border_color, (center.x, center.y), NODE_SIZE, NODE_BORDER_SIZE)
 
         text = self.font.render(str(node.id), False, NODE_TEXT_COLOR)
         text_x = center.x - (text.get_rect().width / 2)

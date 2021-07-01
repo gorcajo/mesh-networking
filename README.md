@@ -59,10 +59,6 @@ Los nodos deben implementar lógica y pueden tener memoria. Los mensajes no debe
 
 ## 5. To-do list
 
-- Estado de los nodos:
-  - Implementar la pérdida de memoria al pasar al estado offline. Impedir que un nodo haga nada cuando está offline.
-  - Al pinchar en un nodo se hace toggle entre offline y online.
-  - El estado inicial de los nodos (online/offline) se almacena en el YAML, aunque los nodos 0 y N siempre deberían estar online.
 - Retocar el YAML para tener la red de pruebas definitiva, con un buen tamaño y nodos de diferentes potencias (lo que provoará enlaces unidireccionales).
 - Routing Mesh Network protocol.
 - Broadcast messages.

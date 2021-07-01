@@ -3,6 +3,7 @@
     x: 0
     y: 0
   power: 4
+  status: online
   type: flooding
 
 - id: 1
@@ -10,6 +11,7 @@
     x: 3
     y: 2
   power: 4
+  status: online
   type: flooding
 
 - id: 2
@@ -17,6 +19,7 @@
     x: 1
     y: 5
   power: 4
+  status: online
   type: flooding
 
 - id: 3
@@ -24,6 +27,7 @@
     x: 6
     y: 1
   power: 4
+  status: offline
   type: flooding
 
 - id: 4
@@ -31,6 +35,7 @@
     x: -3
     y: -1
   power: 4
+  status: online
   type: flooding
 
 - id: 5
@@ -38,6 +43,7 @@
     x: 3
     y: -1
   power: 4
+  status: online
   type: flooding
 
 - id: 6
@@ -45,6 +51,7 @@
     x: 7
     y: 4
   power: 4
+  status: online
   type: flooding
 
 - id: 7
@@ -52,6 +59,7 @@
     x: -1
     y: 3
   power: 4
+  status: online
   type: flooding
 
 - id: 8
@@ -59,6 +67,7 @@
     x: 2
     y: -4
   power: 4
+  status: online
   type: flooding
 
 - id: 9
@@ -66,6 +75,7 @@
     x: -3
     y: 6
   power: 4
+  status: online
   type: flooding
 
 - id: 10
@@ -73,6 +83,7 @@
     x: -2
     y: -6
   power: 4
+  status: online
   type: flooding
 
 - id: 11
@@ -80,6 +91,7 @@
     x: -4
     y: 3
   power: 4
+  status: online
   type: flooding
 
 - id: 12
@@ -87,6 +99,7 @@
     x: 5
     y: 9
   power: 4
+  status: online
   type: flooding
 
 - id: 13
@@ -94,6 +107,7 @@
     x: -1
     y: -3
   power: 4
+  status: online
   type: flooding
 
 - id: 14
@@ -101,6 +115,7 @@
     x: 9
     y: 7
   power: 4
+  status: online
   type: flooding
 
 - id: 15
@@ -108,4 +123,5 @@
     x: 4
     y: 6
   power: 4
+  status: online
   type: flooding
