@@ -59,7 +59,10 @@ Los nodos deben implementar lógica y pueden tener memoria. Los mensajes no debe
 
 ## 5. To-do list
 
-- Retocar el YAML para tener la red de pruebas definitiva, con un buen tamaño y nodos de diferentes potencias (lo que provoará enlaces unidireccionales).
+- Edición de red:
+  - Establecer la potencia de los nodos recién creados de algún modo (ahora se toma la potencia del nodo `0` como referencia).
+  - Establecer el nodo que inyecta el mensaje de algún modo.
+  - Establecer el nodo destinatario del mensaje inyectado de algún modo.
 - Sustituir `pygame` por OpenGL.
 - Routing Mesh Network protocol.
 - Broadcast messages.
