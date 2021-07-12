@@ -30,4 +30,12 @@ class RoutingMessage(Message):
 
     def __init__(self, message_id: int, payload: str) -> None:
         super().__init__(message_id, payload)
-        # TODO
+
+        # TODO ver https://docs.google.com/document/d/16K-tjtF1Ua8tE9iZuNf3dtIShc4IKibH
+        self.origin: int = None
+        self.seq: int = None
+        self.id = f'{self.origin}-{self.seq}'
+        self.route: List[int] = None
+        self.destination: int = None
+        self.next_hop: int = None
+        self.type: str = None
