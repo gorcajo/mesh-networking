@@ -1,5 +1,5 @@
 from __future__ import annotations
-import math
+import copy
 from typing import List
 
 
@@ -12,7 +12,7 @@ class Message:
 
     @property
     def clone(self) -> Message:
-        raise NotImplementedError()
+        return copy.deepcopy(self)
 
 
     def __str__(self) -> str:
@@ -26,18 +26,8 @@ class FloodingMessage(Message):
         self.destination_id: int = destination_id
 
 
-    @property
-    def clone(self) -> Message:
-        return FloodingMessage(self.id, self.destination_id, self.payload)
-
-
 class RoutingMessage(Message):
 
     def __init__(self, message_id: int, payload: str) -> None:
         super().__init__(message_id, payload)
         # TODO
-
-
-    @property
-    def clone(self) -> Message:
-        raise NotImplementedError() # TODO
