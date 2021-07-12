@@ -73,6 +73,8 @@ class Simulation:
 
             self.medium.add_node(self.NodeClass(node_id, node_pos, node_power, node_is_online, self.medium))
 
+        self.default_power = self.medium.find_node_by_id(0).power
+
         logging.info(f'Simulation initialized')
 
 
@@ -106,7 +108,7 @@ class Simulation:
         node = self.NodeClass(
             self.medium.find_first_free_id(),
             pos,
-            4,
+            self.default_power,
             True,
             self.medium)
 

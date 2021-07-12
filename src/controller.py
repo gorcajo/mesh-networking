@@ -83,16 +83,21 @@ class Engine:
 
     def init(self) -> None:
         print('''
-        Controls:
-          - M:      Inject a new message
-          - SPACE:  Run a simulation step
-          - R:      Reset and refresh
-          - CTRL+S: Save nodes
-          - ESC:    Exit
-          - Mouse over a node:    Display power range and reached nodes
+        Simulation controls:
+          - M:                 Inject a new message
+          - SPACE:             Run a simulation step
+          - R:                 Reset and refresh
+          - Mouse over a node: Display power range and reached nodes
+
+        Edition controls:
           - Left-click on a node: Toggle online/offline
+          - Mouse-wheel on a node: Increase/decrease power
           - Right-click on a node:      Remove node
           - Right-click on empty space: Create node
+          - CTRL+S: Save nodes
+
+        Common controls:
+          - ESC: Exit
         ''')
         self.simulation = Simulation()
 
@@ -113,11 +118,15 @@ class Engine:
                     self.simulation.refresh()
                 elif event.key == pygame.K_s and pygame.key.get_mods() & pygame.KMOD_CTRL:
                     self.simulation.save()
+                elif event.key == pygame.K_PLUS or event.key == pygame.K_KP_PLUS:
+                    print(":D")
                 elif event.key == pygame.K_ESCAPE:
                     self.running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 left_button = pygame.mouse.get_pressed()[0]
                 right_button = pygame.mouse.get_pressed()[2]
+                wheel_up = event.button == 4
+                wheel_down = event.button == 5
 
                 mouse_pos = Point.from_mouse_pos(pygame.mouse.get_pos())
 
@@ -127,6 +136,10 @@ class Engine:
                             node.online = not node.online
                         elif right_button:
                             self.simulation.remove_node(node)
+                        elif wheel_up:
+                            node.power += 1
+                        elif wheel_down:
+                            node.power -= 1
 
                         break
                 else:
