@@ -1,3 +1,4 @@
+from __future__ import annotations
 import logging
 
 import yaml
@@ -40,12 +41,26 @@ class Simulation:
         nodes_definition = yaml.safe_load(open(NODES_FILE, 'r'))
         self.previous_nodes_file_hash = self.get_nodes_file_hash()
 
+        network_type = nodes_definition[0]['type']
+
+        self.NodeClass = None
+
+        if network_type == 'flooding':
+            self.NodeClass = FloodingNode
+        elif network_type == 'routing':
+            self.NodeClass = RoutingNode
+        else:
+            raise ValueError()
+
+        for node in nodes_definition:
+            if node['type'] != network_type:
+                raise ValueError()
+
         for node in nodes_definition:
             node_id = int(node['id'])
             node_pos = Point(int(node['pos']['x']), int(node['pos']['y']))
             node_power = int(node['power'])
             node_status = str(node['status'])
-            node_type = str(node['type'])
 
             node_is_online: bool = None
 
@@ -56,14 +71,15 @@ class Simulation:
             else:
                 raise ValueError()
 
-            if node_type == 'flooding':
-                self.medium.add_node(FloodingNode(node_id, node_pos, node_power, node_is_online, self.medium, len(nodes_definition)))
-            elif node_type == 'routing':
-                self.medium.add_node(RoutingNode(node_id, node_pos, node_power, node_is_online, self.medium, len(nodes_definition)))
-            else:
-                raise ValueError()
+            self.medium.add_node(self.NodeClass(node_id, node_pos, node_power, node_is_online, self.medium))
 
         logging.info(f'Simulation initialized')
+
+
+    def save(self) -> None:
+        with open(NODES_FILE, 'w') as nodes_file:
+            nodes_file.write(yaml.dump([node.to_dict() for node in self.medium.nodes]))
+        logging.info(f'Nodes saved in "{NODES_FILE}"')
 
 
     def inject_new_message(self) -> None:
@@ -82,6 +98,23 @@ class Simulation:
         self.step += 1
 
 
+    def remove_node(self, node: Node) -> None:
+        self.medium.nodes.remove(node)
+
+
+    def create_node(self, pos: Point) -> None:
+        node = self.NodeClass(
+            self.medium.find_first_free_id(),
+            pos,
+            4,
+            True,
+            self.medium)
+
+        self.medium.add_node(node)
+
+
+
+
 from medium import Medium
-from node import FloodingNode, RoutingNode
+from node import Node, FloodingNode, RoutingNode
 from point import Point

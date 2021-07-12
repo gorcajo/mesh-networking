@@ -57,5 +57,9 @@ class Point:
         return Point(int(self.x / other), int(self.y / other))
 
 
+    def __floordiv__(self, other: int) -> Point:
+        return Point(int(self.x // other), int(self.y // other))
+
+
     def __str__(self) -> str:
         return f'Point({self.x}, {self.y})'

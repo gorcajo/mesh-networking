@@ -34,5 +34,26 @@ class Medium:
         return None
 
 
+    def find_first_free_id(self) -> int:
+        if len(self.nodes) <= 0:
+            return 0
+
+        node_ids = sorted([node.id for node in self.nodes])
+        highest_id = max(node_ids)
+
+        for i in range(highest_id + 1):
+            if i != node_ids[i]:
+                return i
+
+        return highest_id + 1
+
+
+    def get_highest_node_id(self) -> int:
+        if len(self.nodes) <= 0:
+            return 0
+
+        return max([node.id for node in self.nodes])
+
+
 from message import Message
 from node import Node

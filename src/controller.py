@@ -9,8 +9,8 @@ from node import Node
 from point import Point
 
 
-GRID_SIZE = 30
-GRID_GEOMETRY = (30, 24)
+GRID_SIZE = 20
+GRID_GEOMETRY = (80, 40)
 
 SCREEN_GEOMETRY = (GRID_GEOMETRY[0] * GRID_SIZE, GRID_GEOMETRY[1] * GRID_SIZE)
 SCREEN_WIDTH = SCREEN_GEOMETRY[0]
@@ -84,12 +84,15 @@ class Engine:
     def init(self) -> None:
         print('''
         Controls:
-          - M:     Inject a new message
-          - SPACE: Run a simulation step
-          - R:     Reset and refresh
-          - ESC:   Exit
-          - Mouse over a node: Display power range and reached nodes
-          - Click on a node:   Toggle online/offline
+          - M:      Inject a new message
+          - SPACE:  Run a simulation step
+          - R:      Reset and refresh
+          - CTRL+S: Save nodes
+          - ESC:    Exit
+          - Mouse over a node:    Display power range and reached nodes
+          - Left-click on a node: Toggle online/offline
+          - Right-click on a node:      Remove node
+          - Right-click on empty space: Create node
         ''')
         self.simulation = Simulation()
 
@@ -108,14 +111,27 @@ class Engine:
                     self.simulation.inject_new_message()
                 elif event.key == pygame.K_r:
                     self.simulation.refresh()
+                elif event.key == pygame.K_s and pygame.key.get_mods() & pygame.KMOD_CTRL:
+                    self.simulation.save()
                 elif event.key == pygame.K_ESCAPE:
                     self.running = False
-            elif event.type == pygame.MOUSEBUTTONUP:
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                left_button = pygame.mouse.get_pressed()[0]
+                right_button = pygame.mouse.get_pressed()[2]
+
                 mouse_pos = Point.from_mouse_pos(pygame.mouse.get_pos())
 
                 for node in self.simulation.medium.nodes:
                     if mouse_pos.distance_to(node_to_screen_pos(node)) <= NODE_SIZE:
-                        node.online = not node.online
+                        if left_button:
+                            node.online = not node.online
+                        elif right_button:
+                            self.simulation.remove_node(node)
+
+                        break
+                else:
+                    if right_button:
+                        self.simulation.create_node(screen_pos_to_point(mouse_pos))
 
 
     def draw(self) -> None:
@@ -239,6 +255,16 @@ def shrink_line(from_pos: Point, to_pos: Point, reduction: int) -> Tuple[Point, 
 
 def node_to_screen_pos(node: Node) -> Point:
     return (Point(node.pos.x, -node.pos.y) * GRID_SIZE) + (Point(SCREEN_WIDTH, SCREEN_HEIGHT) / 2)
+
+
+def screen_pos_to_point(screen_pos: Point) -> Point:
+    screen_pos.x += GRID_SIZE // 2
+    screen_pos.y += GRID_SIZE // 2
+
+    offset = Point(GRID_GEOMETRY[0] // 2, GRID_GEOMETRY[1] // 2)
+
+    point_y_inverted = (screen_pos // GRID_SIZE) - offset
+    return Point(point_y_inverted.x, -point_y_inverted.y)
 
 
 if __name__ == '__main__':

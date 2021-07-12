@@ -1,17 +1,16 @@
 from __future__ import annotations
 import logging
-from typing import List
+from typing import Dict, List
 
 
 class Node:
 
-    def __init__(self, node_id: int, pos: Point, power: int, online: bool, medium: Medium, node_count: int) -> None:
+    def __init__(self, node_id: int, pos: Point, power: int, online: bool, medium: Medium) -> None:
         self.id = node_id
         self.pos = pos
         self.power = power
         self.online = online
         self.medium = medium
-        self.node_count = node_count
 
         self.input_queue: List[Message] = []
         self.output_queue: List[Message] = []
@@ -48,14 +47,37 @@ class Node:
         raise NotImplementedError()
 
 
+    def to_dict(self) -> Dict:
+        return {
+            'id': self.id,
+            'pos': {
+                'x': self.pos.x,
+                'y': self.pos.y,
+            },
+            'power': self.power,
+            'status': self.status,
+            'type': self.node_type,
+        }
+
+
+    @property
+    def status(self) -> str:
+        return 'online' if self.online else 'offline'
+
+
+    @property
+    def node_type(self) -> str:
+        return type(self).__name__.replace('Node', '').lower()
+
+
     def __str__(self) -> str:
-        return f'Node(id={self.id})'
+        return f'{type(self).__name__}(id={self.id})'
 
 
 class FloodingNode(Node):
 
-    def __init__(self, node_id: int, pos: Point, power: int, online: bool, medium: Medium, node_count: int) -> None:
-        super().__init__(node_id, pos, power, online, medium, node_count)
+    def __init__(self, node_id: int, pos: Point, power: int, online: bool, medium: Medium) -> None:
+        super().__init__(node_id, pos, power, online, medium)
 
         self.next_message_id = 0
 
@@ -64,7 +86,7 @@ class FloodingNode(Node):
 
 
     def create_message(self) -> None:
-        destination_id = self.node_count - 1
+        destination_id = self.medium.get_highest_node_id()
         message = FloodingMessage(message_id=self.next_message_id, destination_id=destination_id, payload='test')
         self.receive_message(message)
         self.next_message_id += 1
@@ -88,8 +110,8 @@ class FloodingNode(Node):
 
 class RoutingNode(Node):
 
-    def __init__(self, node_id: int, pos: Point, power: int, online: bool, medium: Medium, node_count: int) -> None:
-        super().__init__(node_id, pos, power, online, medium, node_count)
+    def __init__(self, node_id: int, pos: Point, power: int, online: bool, medium: Medium) -> None:
+        super().__init__(node_id, pos, power, online, medium)
 
 
     def create_message(self) -> None:
