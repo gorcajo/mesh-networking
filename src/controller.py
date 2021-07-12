@@ -95,6 +95,7 @@ class Engine:
           - Right-click on a node:      Remove node
           - Right-click on empty space: Create node
           - CTRL+S: Save nodes
+          - CTRL+C: Clear all nodes
 
         Common controls:
           - ESC: Exit
@@ -116,6 +117,8 @@ class Engine:
                     self.simulation.inject_new_message()
                 elif event.key == pygame.K_r:
                     self.simulation.refresh()
+                elif event.key == pygame.K_c and pygame.key.get_mods() & pygame.KMOD_CTRL:
+                    self.simulation.clear_all_nodes()
                 elif event.key == pygame.K_s and pygame.key.get_mods() & pygame.KMOD_CTRL:
                     self.simulation.save()
                 elif event.key == pygame.K_PLUS or event.key == pygame.K_KP_PLUS:

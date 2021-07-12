@@ -104,6 +104,10 @@ class Simulation:
         self.medium.nodes.remove(node)
 
 
+    def clear_all_nodes(self) -> None:
+        self.medium.nodes = []
+
+
     def create_node(self, pos: Point) -> None:
         node = self.NodeClass(
             self.medium.find_first_free_id(),
