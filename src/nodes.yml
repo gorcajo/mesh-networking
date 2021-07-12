@@ -1,34 +1,20 @@
-- id: 0
-  pos:
-    x: 0
-    y: 0
-  power: 4
-  status: online
-  type: flooding
 - id: 1
   pos:
-    x: 3
-    y: 2
+    x: -1
+    y: 1
   power: 4
   status: online
   type: flooding
 - id: 2
   pos:
     x: 1
-    y: 5
+    y: 1
   power: 4
   status: online
   type: flooding
 - id: 3
   pos:
-    x: 6
-    y: 1
-  power: 4
-  status: offline
-  type: flooding
-- id: 4
-  pos:
-    x: -3
+    x: 0
     y: -1
   power: 4
   status: online
@@ -36,77 +22,385 @@
 - id: 5
   pos:
     x: 3
-    y: -1
-  power: 4
-  status: online
-  type: flooding
-- id: 6
-  pos:
-    x: 7
     y: 4
   power: 4
   status: online
   type: flooding
-- id: 7
-  pos:
-    x: -1
-    y: 3
-  power: 4
-  status: online
-  type: flooding
-- id: 8
+- id: 9
   pos:
     x: 2
     y: -4
   power: 4
   status: online
   type: flooding
-- id: 9
+- id: 4
+  pos:
+    x: -2
+    y: -4
+  power: 4
+  status: online
+  type: flooding
+- id: 7
+  pos:
+    x: 5
+    y: 1
+  power: 4
+  status: online
+  type: flooding
+- id: 6
+  pos:
+    x: -5
+    y: 1
+  power: 4
+  status: online
+  type: flooding
+- id: 8
   pos:
     x: -3
-    y: 6
+    y: 4
   power: 4
   status: online
   type: flooding
 - id: 10
   pos:
-    x: -2
-    y: -6
+    x: 0
+    y: 5
+  power: 4
+  status: online
+  type: flooding
+- id: 12
+  pos:
+    x: 4
+    y: -2
   power: 4
   status: online
   type: flooding
 - id: 11
   pos:
     x: -4
-    y: 3
-  power: 4
-  status: online
-  type: flooding
-- id: 12
-  pos:
-    x: 5
-    y: 9
+    y: -2
   power: 4
   status: online
   type: flooding
 - id: 13
   pos:
-    x: -1
-    y: -3
-  power: 4
+    x: -5
+    y: 7
+  power: 5
   status: online
   type: flooding
 - id: 14
   pos:
-    x: 9
-    y: 7
-  power: 4
+    x: -8
+    y: 11
+  power: 8
   status: online
   type: flooding
 - id: 15
   pos:
-    x: 4
-    y: 6
+    x: -15
+    y: 13
+  power: 6
+  status: online
+  type: flooding
+- id: 17
+  pos:
+    x: -17
+    y: 16
+  power: 1
+  status: online
+  type: flooding
+- id: 18
+  pos:
+    x: -18
+    y: 15
+  power: 1
+  status: online
+  type: flooding
+- id: 21
+  pos:
+    x: -18
+    y: 11
+  power: 1
+  status: online
+  type: flooding
+- id: 22
+  pos:
+    x: -17
+    y: 10
+  power: 1
+  status: online
+  type: flooding
+- id: 16
+  pos:
+    x: -20
+    y: 15
+  power: 1
+  status: online
+  type: flooding
+- id: 23
+  pos:
+    x: -20
+    y: 11
+  power: 1
+  status: online
+  type: flooding
+- id: 24
+  pos:
+    x: -19
+    y: 17
+  power: 1
+  status: online
+  type: flooding
+- id: 19
+  pos:
+    x: -19
+    y: 9
+  power: 1
+  status: online
+  type: flooding
+- id: 25
+  pos:
+    x: -7
+    y: -4
   power: 4
+  status: online
+  type: flooding
+- id: 26
+  pos:
+    x: -10
+    y: -6
+  power: 5
+  status: online
+  type: flooding
+- id: 39
+  pos:
+    x: 18
+    y: 7
+  power: 4
+  status: online
+  type: flooding
+- id: 40
+  pos:
+    x: 18
+    y: 10
+  power: 4
+  status: online
+  type: flooding
+- id: 41
+  pos:
+    x: 20
+    y: 12
+  power: 4
+  status: online
+  type: flooding
+- id: 42
+  pos:
+    x: 23
+    y: 12
+  power: 4
+  status: online
+  type: flooding
+- id: 46
+  pos:
+    x: 23
+    y: 5
+  power: 4
+  status: online
+  type: flooding
+- id: 45
+  pos:
+    x: 20
+    y: 5
+  power: 4
+  status: online
+  type: flooding
+- id: 44
+  pos:
+    x: 25
+    y: 7
+  power: 4
+  status: online
+  type: flooding
+- id: 43
+  pos:
+    x: 25
+    y: 10
+  power: 4
+  status: online
+  type: flooding
+- id: 38
+  pos:
+    x: 5
+    y: 7
+  power: 4
+  status: online
+  type: flooding
+- id: 37
+  pos:
+    x: 7
+    y: 10
+  power: 4
+  status: online
+  type: flooding
+- id: 48
+  pos:
+    x: 13
+    y: 11
+  power: 3
+  status: online
+  type: flooding
+- id: 47
+  pos:
+    x: 10
+    y: 11
+  power: 4
+  status: online
+  type: flooding
+- id: 30
+  pos:
+    x: 16
+    y: 11
+  power: 3
+  status: online
+  type: flooding
+- id: 53
+  pos:
+    x: -19
+    y: 13
+  power: 1
+  status: online
+  type: flooding
+- id: 50
+  pos:
+    x: 19
+    y: 2
+  power: 4
+  status: online
+  type: flooding
+- id: 49
+  pos:
+    x: 17
+    y: -1
+  power: 4
+  status: online
+  type: flooding
+- id: 51
+  pos:
+    x: 14
+    y: -3
+  power: 4
+  status: online
+  type: flooding
+- id: 52
+  pos:
+    x: 10
+    y: -3
+  power: 4
+  status: online
+  type: flooding
+- id: 54
+  pos:
+    x: 7
+    y: -3
+  power: 4
+  status: online
+  type: flooding
+- id: 0
+  pos:
+    x: 37
+    y: 13
+  power: 13
+  status: online
+  type: flooding
+- id: 35
+  pos:
+    x: -5
+    y: -16
+  power: 6
+  status: online
+  type: flooding
+- id: 32
+  pos:
+    x: -6
+    y: -14
+  power: 6
+  status: online
+  type: flooding
+- id: 29
+  pos:
+    x: -7
+    y: -12
+  power: 6
+  status: online
+  type: flooding
+- id: 36
+  pos:
+    x: -7
+    y: -17
+  power: 6
+  status: online
+  type: flooding
+- id: 33
+  pos:
+    x: -8
+    y: -15
+  power: 6
+  status: online
+  type: flooding
+- id: 28
+  pos:
+    x: -9
+    y: -13
+  power: 6
+  status: online
+  type: flooding
+- id: 27
+  pos:
+    x: -10
+    y: -11
+  power: 6
+  status: online
+  type: flooding
+- id: 55
+  pos:
+    x: -10
+    y: -16
+  power: 6
+  status: online
+  type: flooding
+- id: 31
+  pos:
+    x: -11
+    y: -14
+  power: 6
+  status: online
+  type: flooding
+- id: 20
+  pos:
+    x: -12
+    y: -12
+  power: 6
+  status: online
+  type: flooding
+- id: 57
+  pos:
+    x: -12
+    y: -17
+  power: 6
+  status: online
+  type: flooding
+- id: 56
+  pos:
+    x: -13
+    y: -15
+  power: 6
+  status: online
+  type: flooding
+- id: 34
+  pos:
+    x: -14
+    y: -13
+  power: 6
   status: online
   type: flooding
