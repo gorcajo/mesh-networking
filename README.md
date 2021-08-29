@@ -12,7 +12,7 @@ Existen dos tipos de redes malladas:
 
 - **Routing**: Los mensajes se transmiten sólo a través de la ruta más óptima hasta llegar al nodo de destino. Los nodos deben implementar un complejo protocolo que provea a ésta de funcionalidades de self-forming y self-healing, de modo que los nodos conozcan de forma autónoma qué rutas deben seguir los mensajes en caso de caídas o reconexiones.
 
-Las flooding networks son más ineficientes que las routing networks ya que provocan alta congestión, a cambio son más mucho fáciles de implementar.
+Las flooding networks son más ineficientes que las routing networks ya que provocan una mayor congestión, pero a cambio son más mucho fáciles de implementar.
 
 ## 2. Nodos
 
@@ -28,7 +28,7 @@ Según el tipo de red que se desee implementar los nodos pueden incorporar atrib
 
 Consideraciones:
 
-- La cantidad, distribución y atributos de los nodos viene dada por la simulación.
+- La cantidad de nodos, su distribución y los atributos de los mismos viene dada por la simulación.
 - Todos los nodos saben cuántos nodos hay en la red.
 - Ningún nodo conoce a priori qué nodos tiene en dentro de su alcance ni los atributos de los demás nodos. Para ello debe haber intercambio de mensajes.
 - Los nodos emiten mensajes en todas direcciones. Todos los nodos que se encuentren dentro del alcance de un nodo emisor recibirán sus mensajes.
@@ -63,10 +63,6 @@ Los nodos deben implementar lógica y pueden tener memoria. Los mensajes no debe
   - Establecer la potencia de los nodos recién creados de algún modo (ahora se toma la potencia del nodo `0` como referencia).
   - Establecer el nodo que inyecta el mensaje de algún modo.
   - Establecer el nodo destinatario del mensaje inyectado de algún modo.
-- Sustituir `pygame` por OpenGL.
+- Sustituir Pygame por OpenGL.
 - Routing Mesh Network protocol.
 - Broadcast messages.
-
-## 6. Notas
-
-Aprovechando el visor de la red y la forma de crear la malla a partir de la posición de los nodos y sus potencias puede salir un buen algoritmo de generación procedural de grafos.
